@@ -1,5 +1,6 @@
 export default {
   target: 'static',
+  ssr: false,
   serverMiddleware: [
     { path: '/api', handler: '~/server-middleware/api/index.js' },
   ],
