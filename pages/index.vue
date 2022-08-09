@@ -1,5 +1,6 @@
 <template>
     <div @click="NewCard()" id="container">
+        <!-- <audio :src="require('@/assets/sounds/carddeal_01.mp3')" controls></audio> -->
         <!-- <audio class="sfx">
             <source :src="require('@/assets/sounds/carddeal_01.mp3')" type="audio/mpeg">
         </audio> -->
@@ -27,11 +28,17 @@
 </template>
 <script>
 import gsap from 'gsap'
+import carddeal_01 from '../assets/sounds/carddeal_01.mp3'
+import carddeal_02 from '../assets/sounds/carddeal_02.mp3'
+import carddeal_03 from '../assets/sounds/carddeal_03.mp3'
+import carddeal_04 from '../assets/sounds/carddeal_04.mp3'
+
 
 export default {
     data: () => ({
         phrases: [],
         offsets: [],
+        sounds: [carddeal_01, carddeal_02, carddeal_03, carddeal_04],
     }),
 
     async fetch() {
@@ -39,6 +46,10 @@ export default {
     },
     methods: {
         async NewCard() {
+
+            const audio = new Audio(this.sounds[Math.floor(Math.random() * this.sounds.length)])
+            audio.play()
+
             const maxMovement = 100;
             const yoffset = (Math.random() * maxMovement) - (maxMovement / 2)
             const xoffset = (Math.random() * maxMovement) - (maxMovement / 2)
@@ -73,7 +84,6 @@ export default {
         setTimeout(() => {
             this.NewCard()
         }, 200);
-
     }
 }
 </script>
