@@ -1,26 +1,15 @@
 <template>
     <div @click="NewCard()" id="container">
-        <!-- <audio :src="require('@/assets/sounds/carddeal_01.mp3')" controls></audio> -->
-        <!-- <audio class="sfx">
-            <source :src="require('@/assets/sounds/carddeal_01.mp3')" type="audio/mpeg">
-        </audio> -->
-        <!-- <audio class="sfx">
-            <source src="~/assets/sounds/carddeal_02.mp3" type="audio/mpeg">
-        </audio>
-        <audio class="sfx">
-            <source src="~/assets/sounds/carddeal_03.mp3" type="audio/mpeg">
-        </audio>
-        <audio class="sfx">
-            <source src="~/assets/sounds/carddeal_04.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="ambientsfx">
-            <source src="~/assets/sounds/carddeal_ambient.mp3" type="audio/mpeg">
-        </audio> -->
+
+
+        <div class="card">
+            <span>Oblique strategies by Brian Eno and Peter Schmidt</span>
+        </div>
 
         <TransitionGroup @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
             <div class="card" v-for="(phrase, i) in phrases" :key="i" :data-xoffset="offsets[i][0]"
-                :data-yoffset="offsets[i][1]" :data-rotoffset="offsets[i][2]" :style="{ zIndex: i }"><span>{{ phrase
-                }}</span>
+                :data-yoffset="offsets[i][1]" :data-rotoffset="offsets[i][2]" :style="{ zIndex: i }">
+                <span>{{ phrase }}</span>
             </div>
         </TransitionGroup>
 
@@ -60,7 +49,7 @@ export default {
             this.phrases.push(phrase.phrase)
         },
         onBeforeEnter(el) {
-            el.style.opacity = 0.5
+            // el.style.opacity = 0.5
             el.style.transform = `translate(${el.dataset.xoffset}px, 100vh) rotate(0)`
         },
         onEnter(el, done) {
@@ -69,7 +58,7 @@ export default {
                 y: el.dataset.yoffset,
                 x: el.dataset.xoffset,
                 rotation: el.dataset.rotoffset,
-                delay: 1,
+                // delay: 1,
                 // transform: `translate(calc(${el.dataset.xoffset}px - 50%), calc(${el.dataset.xoffset}px - 50%)) rotate(${el.dataset.rotoffset}deg)`,
                 onComplete: done
             })
@@ -80,17 +69,12 @@ export default {
             })
         }
     },
-    mounted() {
-        setTimeout(() => {
-            this.NewCard()
-        }, 200);
-    }
 }
 </script>
 <style>
 body {
+    font-family: 'Open Sans', sans-serif;
     background: #000;
-    font-family: sans-serif;
     font-size: 32px;
     margin: 0;
     padding: 0;

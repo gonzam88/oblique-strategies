@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/gonzam88/oblique-strategies/issues"
   },
-  "homepage": "https://github.com/gonzam88/oblique-strategies#readme"
+  "homepage": "https://github.com/gonzam88/oblique-strategies#readme",
+  "devDependencies": {
+    "@nuxtjs/google-fonts": "^3.0.0-0"
+  }
 }

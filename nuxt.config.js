@@ -13,5 +13,14 @@ export default {
         },
       })
     },
+  },
+  buildModules: [
+    '@nuxtjs/google-fonts'
+  ],
+  googleFonts: {
+  families: {
+    "Open+Sans": true
   }
+}
+
 }
