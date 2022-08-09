@@ -1,0 +1,117 @@
+<template>
+    <div @click="NewCard()" id="container">
+        <!-- <audio class="sfx">
+            <source :src="require('@/assets/sounds/carddeal_01.mp3')" type="audio/mpeg">
+        </audio> -->
+        <!-- <audio class="sfx">
+            <source src="~/assets/sounds/carddeal_02.mp3" type="audio/mpeg">
+        </audio>
+        <audio class="sfx">
+            <source src="~/assets/sounds/carddeal_03.mp3" type="audio/mpeg">
+        </audio>
+        <audio class="sfx">
+            <source src="~/assets/sounds/carddeal_04.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="ambientsfx">
+            <source src="~/assets/sounds/carddeal_ambient.mp3" type="audio/mpeg">
+        </audio> -->
+
+        <TransitionGroup @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
+            <div class="card" v-for="(phrase, i) in phrases" :key="i" :data-xoffset="offsets[i][0]"
+                :data-yoffset="offsets[i][1]" :data-rotoffset="offsets[i][2]" :style="{ zIndex: i }"><span>{{ phrase
+                }}</span>
+            </div>
+        </TransitionGroup>
+
+    </div>
+</template>
+<script>
+import gsap from 'gsap'
+
+export default {
+    data: () => ({
+        phrases: [],
+        offsets: [],
+    }),
+
+    async fetch() {
+
+    },
+    methods: {
+        async NewCard() {
+            const maxMovement = 100;
+            const yoffset = (Math.random() * maxMovement) - (maxMovement / 2)
+            const xoffset = (Math.random() * maxMovement) - (maxMovement / 2)
+            const maxRotation = 5;
+            const rotoffset = (Math.random() * maxRotation) - (maxRotation / 2)
+            this.offsets.push([xoffset, yoffset, rotoffset])
+            const phrase = await this.$axios.$get('/api/random')
+            this.phrases.push(phrase.phrase)
+        },
+        onBeforeEnter(el) {
+            el.style.opacity = 0.5
+            el.style.transform = `translate(${el.dataset.xoffset}px, 100vh) rotate(0)`
+        },
+        onEnter(el, done) {
+            gsap.to(el, {
+                opacity: 1,
+                y: el.dataset.yoffset,
+                x: el.dataset.xoffset,
+                rotation: el.dataset.rotoffset,
+                delay: 1,
+                // transform: `translate(calc(${el.dataset.xoffset}px - 50%), calc(${el.dataset.xoffset}px - 50%)) rotate(${el.dataset.rotoffset}deg)`,
+                onComplete: done
+            })
+        },
+        onLeave(el, done) {
+            gsap.to(el, {
+                onComplete: done
+            })
+        }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.NewCard()
+        }, 200);
+
+    }
+}
+</script>
+<style>
+body {
+    background: #000;
+    font-family: sans-serif;
+    font-size: 32px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+#container {
+    position: absolute;
+    left: calc(50% - 300px);
+    top: calc(50% - 200px);
+}
+
+.card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 600px;
+    height: 400px;
+    background: #D8D8D5;
+    border-radius: 20px;
+    padding: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 0 20px #00000017;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+</style>
